@@ -40,8 +40,8 @@ class Category {
   @ApiProperty({
     type: Boolean,
   })
-  @IsString()
   @IsBoolean()
+  @IsNotEmpty()
   isIndividual: boolean;
 
   @ApiProperty({
@@ -49,14 +49,14 @@ class Category {
   })
   @IsBoolean()
   @IsNotEmpty()
-  isBusinesses: boolean;
+  isBusiness: boolean;
 
   @ApiProperty({
     type: Boolean,
   })
   @IsBoolean()
   @IsNotEmpty()
-  isLocationDependency: boolean;
+  isLocationDependent: boolean;
 
 
   @ApiProperty({

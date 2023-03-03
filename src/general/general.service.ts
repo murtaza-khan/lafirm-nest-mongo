@@ -5,6 +5,7 @@ import { constructErrorResponse, constructSuccessResponse } from '../common/wrap
 import { StateDocument } from './models/state.model';
 import { LanguageDocument } from './models/language.model';
 import { CategoryDocument } from './models/category.model';
+import { UserType } from 'src/common/enums';
 
 @Injectable()
 export class GeneralService {
@@ -50,8 +51,16 @@ export class GeneralService {
     }
   }
 
-  async findCategories(_id?: any): Promise<any> {
-    const categories: any = await this.categoryModel.find().select('-states');
+  async findCategories(userType): Promise<any> {
+
+    const criteria: any = {};
+    if (userType != null && userType === UserType.BUSINESS) {
+      criteria.isBusiness = true
+    }
+    if (userType != null && userType === UserType.INDIVIDUAL) {
+      criteria.isIndividual = true;
+    }
+    const categories: any = await this.categoryModel.find(criteria).select('-states');
     return constructSuccessResponse(categories, 'Categories fetched successfully');
   }
 

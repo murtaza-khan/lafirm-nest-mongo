@@ -30,7 +30,6 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Patch('')
   async update(@Request() req, @Body() data: ProfileType): Promise<any> {
-    data.userId = req.user.person;
-    return this.userService.updateProfile(data);
+    return this.userService.updateProfile(data,req.user.person);
   }
 }

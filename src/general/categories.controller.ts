@@ -5,21 +5,25 @@ import {
   UseGuards,
   Get,
   Param,
+  Request,
 
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 import { GeneralService } from './general.service';
 import { Category } from './Dto/general.types';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { MyAuthGuard } from '../auth/authGuard';
 
 @Controller('')
 @ApiTags('Categories')
 export class CategoriesController {
   constructor(private generalService: GeneralService) { }
 
+  @ApiBearerAuth('JWT-auth')
+  @UseGuards(MyAuthGuard)
   @Get('categories')
-  async getCategories(): Promise<any> {
-    return this.generalService.findCategories();
+  async getCategories(@Request() req): Promise<any> {
+    return this.generalService.findCategories(req.user.userType);
   }
 
   @Get('category/:id')
